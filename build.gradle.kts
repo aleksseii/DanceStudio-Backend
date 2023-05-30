@@ -18,7 +18,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
 
-    implementation("org.springframework:spring-core:6.0.9")
+    implementation("org.springframework:spring-core:6.0.6")
 
     implementation("org.springframework.boot:spring-boot:3.1.0")
     implementation("org.springframework.boot:spring-boot-devtools:3.1.0")
@@ -31,6 +31,7 @@ dependencies {
 //    -------------- database --------------
     implementation("org.liquibase:liquibase-core:4.22.0")
     implementation("org.springframework.boot:spring-boot-starter-jdbc:3.1.0")
+    implementation("org.postgresql:postgresql:42.6.0")
 }
 
 tasks.getByName<Test>("test") {
