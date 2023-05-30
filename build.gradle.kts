@@ -18,12 +18,19 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
 
+    implementation("org.springframework:spring-core:6.0.9")
+
     implementation("org.springframework.boot:spring-boot:3.1.0")
+    implementation("org.springframework.boot:spring-boot-devtools:3.1.0")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
     implementation("org.springframework.boot:spring-boot-configuration-processor:3.1.0")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.1.0")
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4")
-    implementation("org.springframework.boot:spring-boot-starter-validation:3.1.0")
+
+//    -------------- database --------------
+    implementation("org.liquibase:liquibase-core:4.22.0")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc:3.1.0")
 }
 
 tasks.getByName<Test>("test") {
