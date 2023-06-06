@@ -8,17 +8,30 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import ru.aleksseii.dao.CrudDao;
+import ru.aleksseii.dto.ClassDay;
 import ru.aleksseii.dto.DanceGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({ "SqlResolve", "SqlNoDataSourceInspection" })
+@SuppressWarnings({ "SqlResolve", "SqlNoDataSourceInspection", "SqlCheckUsingColumns" })
 @Repository
 public final class DanceGroupDao implements CrudDao<DanceGroup> {
 
     private static final @NotNull RowMapper<DanceGroup> DANCE_GROUP_ROW_MAPPER = new DataClassRowMapper<>(DanceGroup.class);
 
     //    --- SELECT queries ---
+    private static final @NotNull String SELECT_CURRENT_CALENDAR = """
+            SELECT t_s.day_of_week, t_s._time AS time_start,
+                   b.ballroom_id, b.ballroom_name,
+                   t.full_name AS teacher_name
+              FROM time_slot AS t_s
+                   JOIN dance_group AS d_g USING(time_slot_id)
+                   JOIN teacher     AS  t  USING(teacher_id)
+                   JOIN ballroom    AS  b  USING(ballroom_id)
+             ORDER BY t_s.time_slot_id
+            """;
+
     private static final @NotNull String SELECT_DANCE_GROUP_BY_ID_QUERY = """
             SELECT *
               FROM dance_group
@@ -48,6 +61,28 @@ public final class DanceGroupDao implements CrudDao<DanceGroup> {
     @Autowired
     public DanceGroupDao(@NotNull JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public @NotNull List<ClassDay> getCalendar() {
+        List<ClassDay> classDays = new ArrayList<>();
+
+        jdbcTemplate.query(
+                SELECT_CURRENT_CALENDAR,
+                resultSet -> {
+
+                    while (resultSet.next()) {
+                        ClassDay classDay = new ClassDay(
+                                resultSet.getString("day_of_week"),
+                                resultSet.getString("time_start"),
+                                resultSet.getInt("ballroom_id"),
+                                resultSet.getString("ballroom_name"),
+                                resultSet.getString("teacher_name")
+                        );
+                        classDays.add(classDay);
+                    }
+                }
+        );
+        return classDays;
     }
 
     @Override
