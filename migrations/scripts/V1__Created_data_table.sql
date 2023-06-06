@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS time_slot(
     _time           TIME            NOT NULL
 );
 
-INSERT INTO time_slot(day_of_week, _time     )
+INSERT INTO time_slot(day_of_week,    _time  )
 VALUES
                      ('Monday',    '10:00:00'),
                      ('Monday',    '12:00:00'),
