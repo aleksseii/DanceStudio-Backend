@@ -28,6 +28,8 @@ dependencies {
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4")
 
+    implementation("com.google.code.gson:gson:2.10.1")
+
 //    -------------- database --------------
     implementation("org.liquibase:liquibase-core:4.22.0")
     implementation("org.springframework.boot:spring-boot-starter-jdbc:3.1.0")
